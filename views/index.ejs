@@ -24,18 +24,19 @@
   const playableCount = characters.filter(c => c.is_playable).length;
   const seriesCount   = seriesList.length;
 
-  // Image map - nguồn ảnh công khai cho từng nhân vật
+  // Image map - ảnh được phục vụ local từ /public/uploads/
+  // Để thay ảnh: đặt file vào public/uploads/ và đổi đường dẫn tương ứng
   const imageMap = {
-    'Mario':           'https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png',
-    'Link':            'https://www.zeldadungeon.net/wiki/images/thumb/2/21/BotW_Link_Artwork.png/200px-BotW_Link_Artwork.png',
-    'Samus Aran':      'https://static.wikia.nocookie.net/metroid/images/d/d9/Samus_Aran_Other_M.png/revision/latest/scale-to-width-down/300?cb=20100903172509',
-    'Donkey Kong':     'https://static.wikia.nocookie.net/donkeykong/images/7/7d/Donkey_Kong_Country_Tropical_Freeze_artwork.png/revision/latest/scale-to-width-down/300?cb=20140123130735',
-    'Princess Zelda':  'https://static.wikia.nocookie.net/zelda_gamepedia_en/images/6/6e/BotW_Zelda_Render.png/revision/latest/scale-to-width-down/300?cb=20170423190635',
-    'Bowser':          'https://static.wikia.nocookie.net/mario/images/d/d5/Bowser_NSMBU_render.png/revision/latest/scale-to-width-down/300?cb=20120924135614',
-    'Kirby':           'https://static.wikia.nocookie.net/kirby/images/5/54/KRtDL_Kirby.png/revision/latest/scale-to-width-down/300?cb=20111110105610',
-    'Pikachu':         'https://upload.wikimedia.org/wikipedia/en/a/a6/Pok%C3%A9mon_Pikachu_art.png',
-    'Fox McCloud':     'https://static.wikia.nocookie.net/starfox/images/9/9b/FoxMcCloudSSBU.png/revision/latest/scale-to-width-down/300?cb=20180613171508',
-    'Captain Falcon':  'https://static.wikia.nocookie.net/fzero/images/8/8c/CptFalcon.png/revision/latest/scale-to-width-down/300?cb=20130914023213',
+    'Mario':           '/uploads/mario.png',
+    'Link':            '/uploads/link.png',
+    'Samus Aran':      '/uploads/samus.png',
+    'Donkey Kong':     '/uploads/donkey_kong.png',
+    'Princess Zelda':  '/uploads/princess_zelda.png',
+    'Bowser':          '/uploads/bowser.png',
+    'Kirby':           '/uploads/kirby.png',
+    'Pikachu':         '/uploads/pikachu.png',
+    'Fox McCloud':     '/uploads/fox_mccloud.png',
+    'Captain Falcon':  '/uploads/captain_falcon.png',
   };
 %>
 
