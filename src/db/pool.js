@@ -13,6 +13,9 @@ const pool = new Pool({
   max:                   10,   // tối đa 10 kết nối đồng thời
   idleTimeoutMillis:  30000,   // đóng kết nối nhàn rỗi sau 30s
   connectionTimeoutMillis: 3000, // timeout nếu không kết nối được sau 3s
+  // SSL bắt buộc vì pg_hba.conf chỉ cho phép hostssl từ HAProxy IPs
+  // rejectUnauthorized: false vì dùng self-signed cert trên mạng nội bộ
+  ssl: { rejectUnauthorized: false },
 });
 
 pool.on('error', (err) => {
