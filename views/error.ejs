@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lỗi - Nintendo Collection</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .error-page {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .error-icon { font-size: 4rem; margin-bottom: 1rem; }
+    .error-msg  { color: var(--text-muted); font-size: 0.95rem; max-width: 480px; }
+    .btn-back {
+      margin-top: 1.5rem;
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-back:hover { background: var(--red-dark); }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <h1>🎮 Nintendo Collection</h1>
+  </header>
+  <div class="error-page">
+    <div class="error-icon">⚠️</div>
+    <h2 style="margin-bottom:0.5rem;">Có lỗi xảy ra</h2>
+    <p class="error-msg"><%= message %></p>
+    <a href="/" class="btn-back">← Quay lại trang chính</a>
+  </div>
+</body>
+</html>

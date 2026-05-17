@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Bộ sưu tập các nhân vật Nintendo huyền thoại." />
+  <title>Nintendo Characters Collection</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<!-- ── Header ─────────────────────────────────────── -->
+<header class="site-header">
+  <h1>🎮 Nintendo Collection</h1>
+  <p class="subtitle">
+    Bộ sưu tập nhân vật huyền thoại
+    <span class="header-badge"><%= characters.length %> nhân vật</span>
+  </p>
+</header>
+
+<!-- ── Controls ───────────────────────────────────── -->
+<%
+  const seriesList = [...new Set(characters.map(c => c.game_series).filter(Boolean))].sort();
+  const playableCount = characters.filter(c => c.is_playable).length;
+  const seriesCount   = seriesList.length;
+
+  // Image map - nguồn ảnh công khai cho từng nhân vật
+  const imageMap = {
+    'Mario':           'https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png',
+    'Link':            'https://www.zeldadungeon.net/wiki/images/thumb/2/21/BotW_Link_Artwork.png/200px-BotW_Link_Artwork.png',
+    'Samus Aran':      'https://static.wikia.nocookie.net/metroid/images/d/d9/Samus_Aran_Other_M.png/revision/latest/scale-to-width-down/300?cb=20100903172509',
+    'Donkey Kong':     'https://static.wikia.nocookie.net/donkeykong/images/7/7d/Donkey_Kong_Country_Tropical_Freeze_artwork.png/revision/latest/scale-to-width-down/300?cb=20140123130735',
+    'Princess Zelda':  'https://static.wikia.nocookie.net/zelda_gamepedia_en/images/6/6e/BotW_Zelda_Render.png/revision/latest/scale-to-width-down/300?cb=20170423190635',
+    'Bowser':          'https://static.wikia.nocookie.net/mario/images/d/d5/Bowser_NSMBU_render.png/revision/latest/scale-to-width-down/300?cb=20120924135614',
+    'Kirby':           'https://static.wikia.nocookie.net/kirby/images/5/54/KRtDL_Kirby.png/revision/latest/scale-to-width-down/300?cb=20111110105610',
+    'Pikachu':         'https://upload.wikimedia.org/wikipedia/en/a/a6/Pok%C3%A9mon_Pikachu_art.png',
+    'Fox McCloud':     'https://static.wikia.nocookie.net/starfox/images/9/9b/FoxMcCloudSSBU.png/revision/latest/scale-to-width-down/300?cb=20180613171508',
+    'Captain Falcon':  'https://static.wikia.nocookie.net/fzero/images/8/8c/CptFalcon.png/revision/latest/scale-to-width-down/300?cb=20130914023213',
+  };
+%>
+
+<div class="controls">
+  <!-- Thống kê -->
+  <div class="stat-bar">
+    <div class="stat">
+      <span class="stat-number"><%= characters.length %></span>
+      <span class="stat-label">Nhân vật</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number"><%= playableCount %></span>
+      <span class="stat-label">Playable</span>
+    </div>
+    <div class="stat">
+      <span class="stat-number"><%= seriesCount %></span>
+      <span class="stat-label">Series</span>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-group">
+    <button class="filter-btn active" data-series="all">Tất cả</button>
+    <% seriesList.forEach(series => { %>
+      <button class="filter-btn" data-series="<%= series %>"><%= series %></button>
+    <% }); %>
+  </div>
+</div>
+
+<!-- ── Card Grid ───────────────────────────────────── -->
+<main class="collection" id="collection">
+  <% characters.forEach(char => { %>
+    <%
+      const imgSrc = imageMap[char.name] || '';
+      const safeDesc = (char.description || '').replace(/'/g, "&#39;");
+    %>
+    <article
+      class="card"
+      data-series="<%= char.game_series %>"
+      data-name="<%= char.name %>"
+      data-series-full="<%= char.game_series %>"
+      data-year="<%= char.debut_year %>"
+      data-desc="<%= safeDesc %>"
+      data-playable="<%= char.is_playable %>"
+      data-img="<%= imgSrc %>"
+      role="button"
+      tabindex="0"
+      aria-label="Xem chi tiết <%= char.name %>"
+    >
+      <div class="card-img-wrap">
+        <img
+          data-src="<%= imgSrc %>"
+          alt="<%= char.name %>"
+          loading="lazy"
+        />
+        <span class="playable-badge <%= char.is_playable ? '' : 'npc' %>">
+          <%= char.is_playable ? '▶ PLAYER' : 'NPC' %>
+        </span>
+      </div>
+      <div class="card-body">
+        <p class="card-name"><%= char.name %></p>
+        <p class="card-series"><%= char.game_series %></p>
+        <p class="card-year">Since <%= char.debut_year %></p>
+      </div>
+    </article>
+  <% }); %>
+
+  <div class="no-results" style="display:none;">
+    Không có nhân vật nào trong series này.
+  </div>
+</main>
+
+<!-- ── Modal ───────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" id="modal-close" aria-label="Đóng">✕</button>
+    <div class="modal-header">
+      <img id="modal-img" src="" alt="" class="modal-img" />
+      <div>
+        <h2 class="modal-title" id="modal-title"></h2>
+        <p class="modal-series" id="modal-series"></p>
+      </div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc" id="modal-desc"></p>
+      <div class="modal-meta">
+        <div class="meta-tag" id="modal-year"></div>
+        <div class="meta-tag" id="modal-play"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────── -->
+<footer>
+  Nintendo Collection &copy; <%= new Date().getFullYear() %> &mdash;
+  Dữ liệu từ PostgreSQL HA Cluster (VIP: <%= process.env.DB_HOST %>)
+</footer>
+
+<script src="/js/main.js"></script>
+</body>
+</html>
